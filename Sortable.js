@@ -265,7 +265,7 @@
 			}
 		},
 
-	_triggerDragStart: function (evt, target, touch) {
+		_triggerDragStart: function (evt, target, touch) {
 			evt.preventDefault();
 
 			if (touch) {
@@ -321,29 +321,26 @@
 				nextEl = dragEl.nextSibling;
 				activeGroup = this.options.group;
 
-				this.options.delay = this.options.delay || 1;
-				if (this.options.delay) {
-					_on(document, 'mouseup', this._onDrop);
-					_on(document, 'touchend', this._onDrop);
-					_on(document, 'touchcancel', this._onDrop);
+				_on(document, 'mouseup', this._onDrop);
+				_on(document, 'touchend', this._onDrop);
+				_on(document, 'touchcancel', this._onDrop);
 
-					// If the user moves the pointer before the delay has been reached:
-					// disable the delayed drag
-					_on(document, 'mousemove', this._disableDelayedDrag);
-					_on(document, 'touchmove', this._disableDelayedDrag);
+				// If the user moves the pointer before the delay has been reached:
+				// disable the delayed drag
+				_on(document, 'mousemove', this._disableDelayedDrag);
+				_on(document, 'touchmove', this._disableDelayedDrag);
 
-					this.dragStartTimer = setTimeout(function () {
-						// Delayed drag has been triggered
-						// we can re-enable the events: touchmove/mousemove
-						_off(document, 'mousemove', _this._disableDelayedDrag);
-						_off(document, 'touchmove', _this._disableDelayedDrag);
+				this.dragStartTimer = setTimeout(function () {
+					// Delayed drag has been triggered
+					// we can re-enable the events: touchmove/mousemove
+					_off(document, 'mousemove', _this._disableDelayedDrag);
+					_off(document, 'touchmove', _this._disableDelayedDrag);
 
-						// Make the element draggable
-						_this._enableDragStart(dragEl, target);
-						// Bind the events: dragstart/dragend
-						_this._triggerDragStart(evt, target, touch);
-					}, this.options.delay);
-				}
+					// Make the element draggable
+					_this._enableDragStart(dragEl, target);
+					// Bind the events: dragstart/dragend
+					_this._triggerDragStart(evt, target, touch);
+				}, this.options.delay);
 			}
 		},
 
