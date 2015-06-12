@@ -262,7 +262,6 @@
 				originalTarget = target,
 				filter = options.filter;
 
-
 			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
 				return; // only left button or enabled
 			}
@@ -326,6 +325,9 @@
 				activeGroup = options.group;
 
 				dragStartFn = function () {
+					// If the drag start is not triggered
+					// we don't need to preventDefault the click event (especially with the delay)
+					_this.dragStartGotTriggered = true
 					// Delayed drag has been triggered
 					// we can re-enable the events: touchmove/mousemove
 					_this._disableDelayedDrag();
@@ -682,7 +684,12 @@
 			this._offUpEvents();
 
 			if (evt) {
-				evt.preventDefault();
+				// Don't prevent the click event
+				// if we have not started to drag (especially when we have the delay option)
+				if (this.dragStartGotTriggered) {
+					evt.preventDefault();
+					this.dragStartGotTriggered = false;
+				}
 				!options.dropBubble && evt.stopPropagation();
 
 				ghostEl && ghostEl.parentNode.removeChild(ghostEl);
