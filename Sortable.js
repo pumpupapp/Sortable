@@ -352,7 +352,7 @@
 					_on(ownerDocument, 'mousemove', _this._disableDelayedDrag);
 					_on(ownerDocument, 'touchmove', _this._disableDelayedDrag);
 
-					_this._dragStartTimer = setTimeout(dragStartFn, options.delay);
+					_this.dragStartTimer = setTimeout(dragStartFn, options.delay);
 				} else {
 					dragStartFn();
 				}
@@ -362,7 +362,7 @@
 		_disableDelayedDrag: function () {
 			var ownerDocument = this.el.ownerDocument;
 
-			clearTimeout(this._dragStartTimer);
+			clearTimeout(this.dragStartTimer);
 
 			_off(ownerDocument, 'mousemove', this._disableDelayedDrag);
 			_off(ownerDocument, 'touchmove', this._disableDelayedDrag);
