@@ -12,7 +12,7 @@ Demo: http://rubaxa-sortable.meteor.com
 If you're new to Meteor, here's what the excitement is all about -
 [watch the first two minutes](https://www.youtube.com/watch?v=fsi0aJ9yr2o); you'll be hooked by 1:28.
 That screencast is from 2012. In the meantime, Meteor has become a mature JavaScript-everywhere web
-development framework. Read more at [Why Meteor](http://www.meteorpedia.com/read/Why_Meteor).
+development framework. Read more at [Why Meteor](http://wiki.dandascalescu.com/essays/why_meteor).
 
 
 # Usage
@@ -25,8 +25,16 @@ Simplest invocation - order will be lost when the page is refreshed:
 
 Persist the sort order in the 'order' field of each document in the collection:
 
+*Client:*
+
 ```handlebars
 {{#sortable items=<collection|cursor|array> sortField="order"}}
+```
+
+*Server:*
+
+```js
+Sortable.collections = <collectionName>;  // the name, not the variable
 ```
 
 Along with `items`, `sortField` is the only Meteor-specific option. If it's missing, the package will
@@ -35,6 +43,10 @@ assume there is a field called "order" in the collection, holding unique `Number
 Try not to depend on a particular format for this field; it *is* though guaranteed that a `sort` will
 produce lexicographical order, and that the order will be maintained after an arbitrary number of
 reorderings, unlike with [naive solutions](http://programmers.stackexchange.com/questions/266451/maintain-ordered-collection-by-updating-as-few-order-fields-as-possible).
+
+Remember to declare on the server which collections you want to be reorderable from the client.
+Otherwise, the library will error because the client would be able to modify numerical fields in
+any collection, which represents a security risk.
 
 
 ## Passing options to the Sortable library
@@ -66,6 +78,20 @@ Template.myTemplate.helpers({
             sort: false
         };
     }
+});
+```
+
+#### Meteor-specific options
+
+* `selector` - you can specify a collection selector if your list operates only on a subset of the collection. Example:
+
+```js
+Template.myTemplate.helpers({
+   playerOptions: function() {
+      return {
+         selector: { city: 'San Francisco' }
+      }
+   }
 });
 ```
 
