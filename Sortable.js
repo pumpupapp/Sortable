@@ -270,8 +270,8 @@
 				return;
 			}
 
-			if (this.options.onTapStart) {
-				this.options.onTapStart(evt)
+			if (this.options.onTouchStart) {
+				this.options.onTouchStart(evt)
 			}
 
 			// get the index of the dragged element within its parent
@@ -468,6 +468,11 @@
 
 		_onTouchMove: function (/**TouchEvent*/evt) {
 			if (tapEvt) {
+
+				if (this.options.onTouchMove) {
+					this.options.onTouchMove(evt)
+				}
+				
 				// only set the status to dragging, when we are actually dragging
 				if (!Sortable.active) {
 					this._dragStarted();
