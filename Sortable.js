@@ -741,6 +741,10 @@
 			var el = this.el,
 				options = this.options;
 
+			if (this.options.onTouchEnd) {
+				this.options.onTouchEnd(evt)
+			}
+
 			clearInterval(this._loopId);
 			clearInterval(autoScroll.pid);
 			clearTimeout(this._dragStartTimer);
